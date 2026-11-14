@@ -14,7 +14,59 @@ It's like having a really good detective 🔎 in your terminal who actually list
 
 ## 🚀 Quick Start
 
-### Install
+### 📦 Install (macOS — no clone, no Rust)
+
+| Your Mac | Download |
+|---|---|
+| Apple Silicon (M1/M2/M3/M4) | [`find-file-0.1.0-aarch64-apple-darwin.tar.gz`](https://github.com/nine-ai-2046-1/find-file/releases/download/v0.1.0/find-file-0.1.0-aarch64-apple-darwin.tar.gz) |
+| Intel | [`find-file-0.1.0-x86_64-apple-darwin.tar.gz`](https://github.com/nine-ai-2046-1/find-file/releases/download/v0.1.0/find-file-0.1.0-x86_64-apple-darwin.tar.gz) |
+
+Not sure which one? Run `uname -m`: `arm64` = Apple Silicon, `x86_64` = Intel.
+
+All releases: https://github.com/nine-ai-2046-1/find-file/releases
+
+```bash
+# Apple Silicon (swap the filename for Intel)
+curl -L -o find-file.tar.gz \
+  https://github.com/nine-ai-2046-1/find-file/releases/download/v0.1.0/find-file-0.1.0-aarch64-apple-darwin.tar.gz
+
+tar -xzf find-file.tar.gz
+cd find-file-0.1.0-aarch64-apple-darwin
+./find-file --help
+```
+
+Each release also ships a `.sha256` sidecar so you can verify the archive:
+
+```bash
+shasum -a 256 -c find-file-0.1.0-aarch64-apple-darwin.tar.gz.sha256
+```
+
+**If macOS refuses to open it:** the binary is unsigned, so browser-downloaded copies get a quarantine flag. Clear it (no admin rights needed):
+
+```bash
+xattr -d com.apple.quarantine ./find-file
+```
+
+Downloading with `curl` avoids the flag entirely. Building from source also produces an unflagged binary.
+
+Optional — put it on your `PATH`:
+
+```bash
+mkdir -p ~/bin && mv find-file ~/bin/
+```
+
+### 🐧 Linux / Windows
+
+No prebuilt binaries are published for these platforms — build from source:
+
+```bash
+git clone https://github.com/nine-ai-2046-1/find-file
+cd find-file
+cargo build --release --locked
+# Binary: target/release/find-file
+```
+
+Or with Cargo directly:
 
 ```bash
 cargo install --path .
@@ -164,6 +216,7 @@ skip_hidden = true
 | Permission denied | Some directories need `sudo` |
 | Too many results | Use `-d` to search a specific folder |
 | Slow search | Search in a smaller directory |
+| `"cannot be opened"` on macOS | `xattr -d com.apple.quarantine ./find-file` |
 
 ---
 
